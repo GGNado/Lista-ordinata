@@ -1,72 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct __Nodo{
+ typedef struct Nodo{
     int elem;
-    struct __Nodo* next;
-} nodo ;
-
-void printNodo(nodo*);
-nodo* addOrdinato(nodo*, int);
-
+    struct Nodo* next;
+ } nodo;
+ 
+ nodo*insert(nodo*,int);
+ nodo*delate(nodo*,int);
+ int isEmpty(nodo*);
+ int size(nodo*);
+ void printList(nodo*);
 int main(){
+    
     nodo* ptr = NULL;
-    ptr = addOrdinato(ptr, 4);
-    ptr = addOrdinato(ptr, 2);
-    ptr = addOrdinato(ptr, 1);
-    ptr = addOrdinato(ptr, 3);
-    ptr = addOrdinato(ptr, 0);
-    ptr = addOrdinato(ptr ,5);
-    printNodo(ptr);
+    ptr = insert(ptr, 4);
+    ptr = insert(ptr, 2);
+    ptr = insert(ptr, 1);
+    ptr = insert(ptr, 3);
+    ptr = insert(ptr, 0);
+    ptr = insert(ptr ,5);
+    ptr = insert(ptr, 7);
+    ptr = insert(ptr, 6);
+    
+    int dim = size(ptr);
+    printf("size: %d\n ", dim);
+    printList(ptr);
+    return 0;
 }
 
-nodo* addOrdinato(nodo* testa, int e){
-   nodo* superiore = testa;
-
-    //entro qui se la lista è vuota
-    if(testa == NULL){
-        nodo* n = malloc(sizeof(nodo));
-        n->elem = e;
-        n->next = NULL;
+int isEmpty(nodo* lista){
+    if(lista==NULL){
+        return 1;
+    }
+    return 0;
+}
+int size(nodo*lista){
+    int i=0;
+    while(lista!=NULL){
+        i++;
+        lista = lista->next;
+    }
+    return i;
+}
+nodo* insert(nodo* lista,int e){
+    nodo* testa = lista;
+    
+    //QUI SI ENTRA SE LA LISTA è VUOTA
+    if(lista==NULL){
+        nodo* n=(nodo*)malloc(sizeof(nodo));
+        n->elem=e;
+        n->next=NULL;
         return n;
     }
     
-
-    //qui il nodo va in prima posizione
-    if(testa->elem >= e){
-        nodo* n = malloc(sizeof(nodo));
-        n->next = testa;
-        n->elem = e;
+    //QUI SE STA PRIMA,QUINDI SE DIVENTA LA NUOVA TESTA
+    if(lista->elem>=e){
+        nodo* n=(nodo*)malloc(sizeof(nodo));
+        n->next=lista;
+        n->elem=e;
         return n;
     }
     
-    while(testa->next != NULL){
-        if(testa->next->elem>e) {
-            nodo* n = malloc(sizeof(nodo));
-            n->next = testa->next;
-            n->elem = e;
-            return superiore;
+    while(lista->next!=NULL){
+        //SI ENTRA SE IL VALORE è IN MEZZO A DUE NUMERI
+        if(lista->next->elem>e){
+             nodo* n=(nodo*)malloc(sizeof(nodo));
+             n->next=lista->next;
+             n->elem=e;
+             lista->next=n;
+             return testa;
         }
-        testa = testa->next;
+        lista = lista->next;
     }
-
-    //si inserisce alla fine
-    nodo* n = malloc(sizeof(nodo));
+    
+    //IL NUMERO è IL PIU GRANDE DELLA LISTA, QUINDI VA IN FONDO
+    nodo* n=(nodo*)malloc(sizeof(nodo));
     n->next=NULL;
     n->elem=e;
-    testa->next = n;
-    
-    return superiore;
+    lista->next = n;      
+    return testa;
 }
 
-void printNodo(nodo* testa){
-    if(testa == NULL){
-        printf("Lista vuota\n");
-    } else {
-        printf("Contenuto lista: ");
-        while(testa != NULL){
-            printf("%d ", testa->elem);
-            testa = testa->next;
+void printList(nodo*lista){
+    if(lista==NULL){
+        printf("lista vuota");
+    }else{
+        printf("contenuto lista: ");
+        while(lista!=NULL){
+            printf("%d ",lista->elem);
+            lista=lista->next;
         }
+        
     }
 }
+
