@@ -21,7 +21,7 @@ int main(){
 }
 
 nodo* addOrdinato(nodo* testa, int e){
-    nodo* superiore = testa;
+   nodo* superiore = testa;
 
     //entro qui se la lista è vuota
     if(testa == NULL){
@@ -57,8 +57,6 @@ nodo* addOrdinato(nodo* testa, int e){
     testa->next = n;
     
     return superiore;
-
-    //FUNZIONA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 void printNodo(nodo* testa){
